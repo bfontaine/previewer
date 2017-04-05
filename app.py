@@ -1,11 +1,10 @@
 # -*- coding: UTF-8 -*-
 
-from io import BytesIO
 from urllib.parse import urlencode, urlparse
 
 from flask import Flask, request, abort, redirect, make_response
-from PIL import Image
-from PIL import ImageDraw
+
+from previewer import Page
 
 app = Flask(__name__)
 
@@ -30,17 +29,9 @@ def main(path):
     if False and not accept.startswith("image/"):  # debug
         return redirect(url)
 
-    # just a test for now
-    img = Image.new("RGBA", (400, 50))
-    draw = ImageDraw.Draw(img)
-    draw.text((5, 20), url, (0, 0, 0))
-    fp = BytesIO()
-    img.save(fp, format="PNG")
+    p = Page(url)
+    preview = p.get_preview()
 
-    fp.seek(0)
-    resp = make_response(fp.read())
-    resp.headers["Content-Type"] = "image/png"
+    resp = make_response(preview.bytes())
+    resp.headers["Content-Type"] = preview.content_type
     return resp
-
-    # TODO
-    return url
