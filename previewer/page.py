@@ -77,12 +77,13 @@ class Page:
 
     @property
     def image_url(self):
-        # Other candidates:
-        # <link rel="apple-touch-icon" href=
-        # <link rel="apple-touch-icon-precomposed" href=
-        # <meta name="msapplication-TileImage"
-        #
-        for meta in ("og:image",):
+        for rel in ("icon", "apple-touch-icon", "apple-touch-icon-precomposed",
+                    "msapplication-TileImage"):
+            href = self._get_link(rel)
+            if href:
+                return href
+
+        for meta in ("og:image", "twitter:image", "msapplication-TileImage"):
             m = self._get_meta(meta)
             if m:
                 return clean_text(m)
@@ -90,6 +91,11 @@ class Page:
 
     def get_preview(self):
         return Preview(self)
+
+    def _get_link(self, rel):
+        el = self.soup.select_one("link[rel=%s]" % rel)
+        if el and "href" in el.attrs:
+            return el.attrs["href"]
 
     def _get_meta(self, name):
         el = self.soup.select_one("meta[property=%s]" % name)

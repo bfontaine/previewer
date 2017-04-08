@@ -41,7 +41,6 @@ class Preview:
         self._draw = ImageDraw.Draw(self._img)
 
         self._draw_title()
-
         # some margin please
         self._y += 10
 
@@ -58,7 +57,10 @@ class Preview:
         text = fit_text(text, font, self._max_width,
                 max_height, max_lines=max_lines)
 
-        _, h = font.getsize(text)
+        # for some reason we have to encode this to get it to work. Using
+        # font.getsize doesn't raise an exception but returns wrong dimensions.
+        latin1_text = text.encode("utf-8").decode("latin1")
+        _, h = self._draw.textsize(latin1_text)
 
         self._draw.text((self._padding_x, self._y),
                         text, fill=self._fg, font=font)
@@ -67,7 +69,6 @@ class Preview:
 
     def _draw_title(self):
         self._draw_text(self.page.title, title_font, max_lines=1)
-        self._y += 2  # some spacing
 
     def _draw_excerpt(self):
         self._draw_text(self.page.excerpt, excerpt_font, max_lines=4)
