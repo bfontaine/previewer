@@ -3,7 +3,6 @@
 import re
 
 import requests
-from unidecode import unidecode
 from bs4 import BeautifulSoup
 
 from previewer.preview import Preview
@@ -17,8 +16,7 @@ def get_html(url):
     return resp.text if resp.ok else ""
 
 def clean_text(text):
-    # quick fix for weird chars.
-    text = re.sub(r"\s+", " ", unidecode(text))
+    text = re.sub(r"\s+", " ", text)
     text = text.strip()
     return text
 
