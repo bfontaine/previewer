@@ -41,17 +41,43 @@ class Page:
         if title:
             return clean_text(title.text)
 
+        # h1, h2
+        for h in range(1, 2+1):
+            el = self.soup.select_one("h%d" % h)
+            if el:
+                return clean_text(el.text)
+
         return clean_text(self.url)
 
     @property
     def excerpt(self):
-        for meta in ("og:description", "twitter:description"):
+        for meta in ("og:description", "twitter:description",
+                     "description", "sailthru.description"):
             m = self._get_meta(meta)
             if m:
                 return clean_text(m)
 
+        p = self.soup.select_one("p")
+        if p:
+            t = clean_text(p.text)
+            print(t)
+            return t
+
         # TODO
         return ""
+
+    @property
+    def image_url(self):
+        # Other candidates:
+        # <link rel="apple-touch-icon" href=
+        # <link rel="apple-touch-icon-precomposed" href=
+        # <meta name="msapplication-TileImage"
+        #
+        for meta in ("og:image",):
+            m = self._get_meta(meta)
+            if m:
+                return clean_text(m)
+
 
     def get_preview(self):
         return Preview(self)
