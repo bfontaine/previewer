@@ -32,11 +32,12 @@ has parameter you need to put the `/p.png` *before* them.
 
 ### Examples
 
-In the examples below we assume you deployed your instance at `p.example.com`:
+In the examples below we assume you deployed your instance at
+`http://p.example.com`:
 
-* `https://www.google.com` -> `p.example.com/https://www.google.com/p.png`
-* `https://www.youtube.com/watch?v=Sagg08DrO5U` -> `p.example.com/https://www.youtube.com/watch/p.png?v=Sagg08DrO5U`
-* `https://news.ycombinator.com/item?id=14068363` -> `p.example.com/https://news.ycombinator.com/item/p.png?id=14068363`
+* `https://www.google.com` -> `http://p.example.com/https://www.google.com/p.png`
+* `https://www.youtube.com/watch?v=Sagg08DrO5U` -> `http://p.example.com/https://www.youtube.com/watch/p.png?v=Sagg08DrO5U`
+* `https://news.ycombinator.com/item?id=14068363` -> `http://p.example.com/https://news.ycombinator.com/item/p.png?id=14068363`
 
 ## How it works.
 
