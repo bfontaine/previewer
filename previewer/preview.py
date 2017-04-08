@@ -58,7 +58,7 @@ class Preview:
         text = fit_text(text, font, self._max_width,
                 max_height, max_lines=max_lines)
 
-        _, h = self._draw.textsize(text)
+        _, h = font.getsize(text)
 
         self._draw.text((self._padding_x, self._y),
                         text, fill=self._fg, font=font)

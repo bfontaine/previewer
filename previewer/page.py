@@ -2,6 +2,7 @@
 
 import re
 
+import chardet
 import requests
 from bs4 import BeautifulSoup
 
@@ -11,15 +12,25 @@ __all__ = ["Page"]
 
 UA = "Previewer/0.1 (+bfontaine.net)"
 
+def http_get(url):
+    return requests.get(url, headers={"User-Agent": UA})
+
 def get_html(url):
-    resp = requests.get(url, headers={"User-Agent": UA})
-    return resp.text if resp.ok else ""
+    resp = http_get(url)
+    if not resp.ok:
+        return ""
+
+    # fix for wrong encoding guesses
+    if resp.encoding != "utf-8" and \
+            chardet.detect(resp.content)["encoding"] == "utf-8":
+        resp.encoding = "utf-8"
+
+    return resp.text
 
 def clean_text(text):
-    text = re.sub(r"\s+", " ", text)
+    text = re.sub(r"\s+", " ", text, re.UNICODE)
     text = text.strip()
     return text
-
 
 class Page:
     def __init__(self, url):
@@ -57,11 +68,9 @@ class Page:
             if m:
                 return clean_text(m)
 
-        p = self.soup.select_one("p")
-        if p:
-            t = clean_text(p.text)
-            print(t)
-            return t
+        for p in self.soup.select("p", limit=2):
+            if len(p.text) > 70:
+                return clean_text(p.text)
 
         # TODO
         return ""
