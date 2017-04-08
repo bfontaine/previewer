@@ -26,7 +26,7 @@ def main(path):
     # Mattermost has the following Accept header:
     #   image/webp,image/*,*/*;q=0.8
     accept = request.headers.get("Accept", "")
-    if False and not accept.startswith("image/"):  # debug
+    if not accept.startswith("image/"):  # debug
         return redirect(url)
 
     p = Page(url)
