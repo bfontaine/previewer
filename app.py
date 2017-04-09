@@ -26,10 +26,14 @@ def main(path):
     # Mattermost has the following Accept header:
     #   image/webp,image/*,*/*;q=0.8
     accept = request.headers.get("Accept", "")
-    if not accept.startswith("image/"):  # debug
+    if not accept.startswith("image/"):
         return redirect(url)
 
     p = Page(url)
+    if not p.has_content:
+        # We can't show anything: redirect to the original
+        return redirect(url)
+
     preview = p.get_preview()
 
     resp = make_response(preview.bytes())

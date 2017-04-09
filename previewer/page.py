@@ -20,6 +20,9 @@ def get_html(url):
     if not resp.ok:
         return ""
 
+    if resp.headers.get("content-type", "") not in {"text/xhtml", "text/html"}:
+        return ""
+
     # fix for wrong encoding guesses
     if resp.encoding != "utf-8" and \
             chardet.detect(resp.content)["encoding"] == "utf-8":
@@ -40,6 +43,7 @@ class Page:
     def fetch(self):
         html = get_html(self.url)
         self.soup = BeautifulSoup(html, "html.parser")
+        self.has_content = bool(html)
 
     @property
     def title(self):
