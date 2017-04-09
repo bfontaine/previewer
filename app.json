@@ -1,0 +1,6 @@
+{
+  "name": "Previewer",
+  "description": "Generate image link previews",
+  "repository": "https://github.com/bfontaine/previewer",
+  "keywords": ["python"]
+}
