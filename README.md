@@ -41,4 +41,6 @@ In the examples below we assume you deployed your instance at
 
 ## How it works.
 
-See my blog post–TODO write a blog post about it
+[See my blog post][blog].
+
+[blog]: https://bfontaine.net/blog/2017/04/09/a-quick-link-previewer-for-mattermost/
