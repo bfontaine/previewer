@@ -12,6 +12,10 @@ app = Flask(__name__)
 def favicon():
     abort(404)
 
+@app.route("/")
+def root():
+    return redirect("https://github.com/bfontaine/previewer#previewer")
+
 @app.route("/<path:path>/p.png")
 def main(path):
     url = path
