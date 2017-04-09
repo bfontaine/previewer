@@ -20,7 +20,9 @@ def get_html(url):
     if not resp.ok:
         return ""
 
-    if resp.headers.get("content-type", "") not in {"text/xhtml", "text/html"}:
+    content_type = resp.headers.get("content-type", "")
+    if not content_type.startswith("text/html") and \
+            not content_type.startswith("text/xhtml"):
         return ""
 
     # fix for wrong encoding guesses
