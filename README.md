@@ -5,6 +5,8 @@ previews for links other than images and YouTube videos.
 It’s like a proxy for your links: it acts as an image for Mattermost but will
 redirect any “normal” user to the original link.
 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 ## Run
 
 **Previewer** requires Python 3.x. Install its dependencies:
